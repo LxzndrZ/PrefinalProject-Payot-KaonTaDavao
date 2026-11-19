@@ -1,66 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Kaon Ta! Davao – Payot's Food Guide
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Prefinal Milestone Project by **Alexzander Rojan Payot** (4-334 Full-Stack Development).
 
-## About Laravel
+A Laravel 12 guide to Davao City carinderias and eateries: eateries by district, their permits, dishes, features, and reviews.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Setup
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate:fresh --seed
+npm install
+npm run build
+php artisan serve
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## My personalized data
 
-## Learning Laravel
+- Districts: Poblacion, Talomo, Agdao, Buhangin, Toril, Calinan
+- Features: Suki ni Payot, Budget Meal, Halal, Open 24 Hours, Aircon, Free Wi-Fi
+- Users (password `kaonta2026`):
+  - Alexzander Rojan Payot – payot@kaonta.test
+  - Tita Payot – tita.payot@kaonta.test
+- My eatery: Carinderia ni Payot (`carinderia-ni-payot`), Poblacion, San Pedro St., Poblacion, Davao City, budget, Tinolang Manok
+- My permit: DVO-2026-0520, expires May 20, 2027
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Relationships
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+| Relationship | Type | Why it fits |
+|---|---|---|
+| District and Eatery | hasMany / belongsTo | One district has many eateries, but each eatery is in only one district. |
+| Eatery and Dish | hasMany / belongsTo | One eatery sells many dishes, and each dish belongs to one eatery. |
+| Eatery and Review | hasMany / belongsTo | One eatery gets many reviews, and each review is about one eatery. |
+| User and Review | hasMany / belongsTo | One user can write many reviews, and each review has one writer. |
+| Eatery and Permit | hasOne / belongsTo | An eatery has exactly one business permit, so `eatery_id` is unique in permits. |
+| Eatery and Feature | belongsToMany / belongsToMany | An eatery can have many features and a feature is shared by many eateries, so they meet in the `eatery_feature` pivot table. |
+| District and Review | hasManyThrough | Reviews have no district id, but each review belongs to an eatery that belongs to a district, so I count them through Eatery. |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Routes
 
-## Laravel Sponsors
+```
+  GET|HEAD        / .................................................................... home › HomeController
+  GET|HEAD        districts ....................................... districts.index › DistrictController@index
+  GET|HEAD        districts/{district} .............................. districts.show › DistrictController@show
+  GET|HEAD        eateries ........................................... eateries.index › EateryController@index
+  POST            eateries ........................................... eateries.store › EateryController@store
+  GET|HEAD        eateries/create .................................. eateries.create › EateryController@create
+  GET|HEAD        eateries/{eatery} .................................... eateries.show › EateryController@show
+  PUT|PATCH       eateries/{eatery} ................................ eateries.update › EateryController@update
+  DELETE          eateries/{eatery} .............................. eateries.destroy › EateryController@destroy
+  GET|HEAD        eateries/{eatery}/edit ............................... eateries.edit › EateryController@edit
+  POST            eateries/{eatery}/reviews .................. eateries.reviews.store › ReviewController@store
+  GET|HEAD        reviewers/{user} .................................. reviewers.show › ReviewerController@show
+  DELETE          reviews/{review} ................................ reviews.destroy › ReviewController@destroy
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+                                                                                           Showing [13] routes
+```
 
-### Premium Partners
+## Screenshots
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![Eatery list](screenshots/eatery-list.png)
+![Eatery page with reviews](screenshots/eatery-page.png)
+![Create form with validation errors](screenshots/create-errors.png)
