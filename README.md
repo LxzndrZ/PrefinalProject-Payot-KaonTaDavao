@@ -31,13 +31,13 @@ php artisan serve
 
 | Relationship | Type | Why it fits |
 |---|---|---|
-| District and Eatery | hasMany / belongsTo | One district has many eateries, but each eatery is in only one district. |
-| Eatery and Dish | hasMany / belongsTo | One eatery sells many dishes, and each dish belongs to one eatery. |
-| Eatery and Review | hasMany / belongsTo | One eatery gets many reviews, and each review is about one eatery. |
-| User and Review | hasMany / belongsTo | One user can write many reviews, and each review has one writer. |
-| Eatery and Permit | hasOne / belongsTo | An eatery has exactly one business permit, so `eatery_id` is unique in permits. |
-| Eatery and Feature | belongsToMany / belongsToMany | An eatery can have many features and a feature is shared by many eateries, so they meet in the `eatery_feature` pivot table. |
-| District and Review | hasManyThrough | Reviews have no district id, but each review belongs to an eatery that belongs to a district, so I count them through Eatery. |
+| District and Eatery | hasMany / belongsTo | One district can have lots of eateries, but an eatery is only in one district, like Poblacion has many carinderias. |
+| Eatery and Dish | hasMany / belongsTo | Each eatery has its own menu with many dishes, and a dish only belongs to that one eatery. |
+| Eatery and Review | hasMany / belongsTo | People can leave many reviews on one eatery, but each review is only about one place. |
+| User and Review | hasMany / belongsTo | One user can review a lot of eateries, but each review is only written by one person. |
+| Eatery and Permit | hasOne / belongsTo | An eatery only has one business permit, that's why eatery_id is unique in the permits table. |
+| Eatery and Feature | belongsToMany / belongsToMany | An eatery can be Halal and Budget Meal at the same time, and Halal is also used by other eateries, so I needed the eatery_feature pivot table. |
+| District and Review | hasManyThrough | Reviews don't have a district_id, so I go through the eateries to get them. Example: Poblacion → its eateries → their reviews. |
 
 ## Routes
 
