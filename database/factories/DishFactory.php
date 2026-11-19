@@ -2,23 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\Dish;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Dish>
- */
 class DishFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->randomElement(['Pork Adobo', 'Chicken Inasal', 'Sinigang na Baboy', 'Pancit Canton', 'Lumpia', 'Halo-halo', 'Bulalo', 'Tapsilog']),
+            'price' => fake()->randomFloat(2, 40, 300),
+            'is_bestseller' => fake()->boolean(20),
         ];
     }
 }
