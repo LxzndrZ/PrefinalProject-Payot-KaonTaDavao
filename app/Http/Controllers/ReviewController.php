@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreReviewRequest;
+use App\Models\Eatery;
+use App\Models\Review;
+
+class ReviewController extends Controller
+{
+    public function store(StoreReviewRequest $request, Eatery $eatery)
+    {
+        // created through the eatery's relationship, so eatery_id is filled in
+        $eatery->reviews()->create($request->validated());
+
+        return redirect()->route('eateries.show', $eatery)->with('status', 'Salamat! Review posted.');
+    }
+
+    public function destroy(Review $review)
+    {
+        $eatery = $review->eatery;
+        $review->delete();
+
+        return redirect()->route('eateries.show', $eatery)->with('status', 'Review deleted.');
+    }
+}
